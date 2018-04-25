@@ -1,6 +1,7 @@
 # TODO: Add an appropriate license to your skill before publishing.  See
 # the LICENSE file for more information.
 
+
 # Below is the list of outside modules you'll be using in your skill.
 # They might be built-in to Python, from mycroft-core or from external
 # libraries.  If you use an external library, be sure to include it
@@ -20,31 +21,46 @@ class NestSkill(MycroftSkill):
         # Initialize working variables used within the skill.
         self.count = 0
 
-    # The "handle_xxxx_intent" function is triggered by Mycroft when the
-    # skill's intent is matched.  The intent is defined by the IntentBuilder()
-    # pieces, and is triggered when the user's utterance matches the pattern
-    # defined by the keywords.  In this case, the match occurs when one word
-    # is found from each of the files:
-    #    vocab/en-us/Hello.voc
-    #    vocab/en-us/World.voc
-    # In this example that means it would match on utterances like:
-    #   'Hello world'
-    #   'Howdy you great big world'
-    #   'Greetings planet earth'
-    @intent_handler(IntentBuilder("").require("Temperature").require("At"))
+    @intent_handler(IntentBuilder("").require("Temperature").require("At").require("Currently"))
     def handle_temp_question_intent(self, message):
+
         # retrive data thru api there
+        currentTemp = 67; #change to get temp thru api
+        self.speak_dialog("current.temp", data={"currentTemp": currentTemp})
 
-        self.currentTemp = 67; #change to get temp thru api
-        self.speak_dialog("current.temp", data={"currentTemp": self.current})
-
-    @intent_handler(IntentBuilder("").require("Count").require("Dir"))
+    @intent_handler(IntentBuilder("").require("Temperature").require("Set"))
     def handle_count_intent(self, message):
-        if message.data["Dir"] == "up":
-            self.count += 1
-        else:  # assume "down"
-            self.count -= 1
-        self.speak_dialog("count.is.now", data={"count": self.count})
+        # num = message.data
+        num = 70
+        # get number spoken
+        # set nest device to number {{num}}
+
+        self.speak_dialog("temp.set", data={'num': num})
+
+    @intent_handler(IntentBuilder("").require("Camera").require("Status"))
+    def handle_count_intent(self, message):
+        #
+        #use nest to get status
+        nest = true # true on false off
+        status = "ON"
+        if (nest != true){
+            status = "OFF"
+        } else {
+            status = "ON"
+        }
+        self.speak_dialog("status.cam", data={'status': status})
+
+
+
+
+
+
+    ######
+        #if message.data["Dir"] == "up":
+        #    self.count += 1
+        #else:  # assume "down"
+        #    self.count -= 1
+        #self.speak_dialog("count.is.now", data={"count": self.count})
 
     # The "stop" method defines what Mycroft does when told to stop during
     # the skill's execution. In this case, since the skill's functionality

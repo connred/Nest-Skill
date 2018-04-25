@@ -8,7 +8,7 @@ A Skill that allows you to control nest systems. Verbally control thermostat tem
 * "What is the temperature set at?"
 * "Turn the camera on"
 * "Set the temperature to 67"
-* "Turn the camerea off"
+* "Turn the Camera off"
 
 ## Credits
 Connor Redmond
